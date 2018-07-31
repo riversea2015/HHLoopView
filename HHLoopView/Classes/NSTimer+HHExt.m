@@ -9,7 +9,7 @@
 
 @implementation NSTimer (HHExt)
 
-+ (NSTimer *)rs_timerwithTimeInterval:(NSTimeInterval)interval block:(void(^)())block repeat:(BOOL)repeat {
++ (NSTimer *)hh_timerwithTimeInterval:(NSTimeInterval)interval block:(void(^)(void))block repeat:(BOOL)repeat {
     NSTimer *timer = [self scheduledTimerWithTimeInterval:interval
                                                    target:self
                                                  selector:@selector(rs_blockAction:)
@@ -19,7 +19,7 @@
 }
 
 + (void)rs_blockAction:(NSTimer *)timer {
-    void(^block)() = timer.userInfo;
+    void(^block)(void) = timer.userInfo;
     if (block) {
         block();
     }

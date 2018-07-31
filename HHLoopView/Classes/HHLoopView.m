@@ -119,7 +119,7 @@ UICollectionViewDataSource
 - (void)addTimer {
     
     __weak typeof(self) weakSelf = self;
-    _timer = [NSTimer rs_timerwithTimeInterval:HHLoopViewKeepTime block:^{
+    _timer = [NSTimer hh_timerwithTimeInterval:HHLoopViewKeepTime block:^{
         [weakSelf nextPage];
     } repeat:YES];
     

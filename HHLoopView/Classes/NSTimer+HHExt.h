@@ -9,6 +9,6 @@
 
 @interface NSTimer (HHExt)
 
-+ (NSTimer *)rs_timerwithTimeInterval:(NSTimeInterval)interval block:(void(^)())block repeat:(BOOL)repeat;
++ (NSTimer *)hh_timerwithTimeInterval:(NSTimeInterval)interval block:(void(^)(void))block repeat:(BOOL)repeat;
 
 @end
