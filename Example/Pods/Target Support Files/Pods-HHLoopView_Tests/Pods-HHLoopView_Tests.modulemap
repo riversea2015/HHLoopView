@@ -1,0 +1,6 @@
+framework module Pods_HHLoopView_Tests {
+  umbrella header "Pods-HHLoopView_Tests-umbrella.h"
+
+  export *
+  module * { export * }
+}
