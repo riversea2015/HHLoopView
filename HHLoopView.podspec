@@ -38,9 +38,9 @@ Pod::Spec.new do |s|
 
   s.public_header_files = 'HHLoopView/Classes/**/*.h'
 
-  s.prefix_header_contents = '#ifdef __OBJC__','#import "HHLoopView_Macro.h"','#endif'
+  s.prefix_header_contents = '#ifdef __OBJC__','#import "HHLoopView_Macro.h"','#import "UIImageView+WebCache.h"','#import "UIView+WebCache.h"','#endif'
 
   s.frameworks = 'UIKit'
-  # s.dependency 'AFNetworking', '~> 2.3'
+  s.dependency 'SDWebImage'
 
 end

@@ -13,8 +13,8 @@
  init method
 
  @param frame frame
- @param imgArr imgArr
- @param clickAction clickAction
+ @param imgArr 图片数组(UIImage/NSURL/NSString(URLStr or nameStr)/nil
+ @param clickAction 点击的block
  @return A HHLoopView object
  */
 - (instancetype)initWithFrame:(CGRect)frame images:(NSArray *)imgArr clickAction:(void(^)(int intIndex))clickAction;

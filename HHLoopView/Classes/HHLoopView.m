@@ -23,7 +23,7 @@ UICollectionViewDataSource
 
 /// 点击的block(仅为针对图片)
 @property (nonatomic, copy) void(^clickBlock)(int intIndex);
-/// 图片数组(支持：UIImage、NSString、NSURL，前边三者都不是时的处理)
+/// 图片数组(UIImage、NSString、NSURL)
 @property (nonatomic, strong) NSArray *imageList;
 /// 点击的图片序号
 @property (nonatomic, assign) int touchedIndex;
@@ -91,8 +91,10 @@ UICollectionViewDataSource
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     HHLoopViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:[HHLoopViewCell cellID] forIndexPath:indexPath];
+    
     NSString *strName = _imageList[indexPath.item];
-    cell.imageName = strName;
+    cell.image = strName;
+    
     return cell;
 }
 
@@ -114,7 +116,7 @@ UICollectionViewDataSource
     [self addTimer];
 }
 
-#pragma mark - Timer
+#pragma mark - Add or Remove Timer
 
 - (void)addTimer {
     
@@ -154,7 +156,7 @@ UICollectionViewDataSource
 #if DEBUG
 
 - (void)dealloc {
-    NSLog(@"---%s被销毁了---", __FUNCTION__);
+    NSLog(@"--- (＾－＾) %s (＾－＾) ---", __FUNCTION__);
 }
 
 #endif

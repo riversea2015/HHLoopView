@@ -23,7 +23,14 @@
   "prefix_header_contents": [
     "#ifdef __OBJC__",
     "#import \"HHLoopView_Macro.h\"",
+    "#import \"UIImageView+WebCache.h\"",
+    "#import \"UIView+WebCache.h\"",
     "#endif"
   ],
-  "frameworks": "UIKit"
+  "frameworks": "UIKit",
+  "dependencies": {
+    "SDWebImage": [
+
+    ]
+  }
 }

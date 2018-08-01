@@ -9,7 +9,7 @@
 
 @interface HHLoopViewCell ()
 
-/// 主图
+/// mainImageView
 @property (nonatomic, strong) UIImageView *mainImgV;
 
 @end
@@ -20,7 +20,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = [UIColor greenColor];
+        self.backgroundColor = [UIColor lightGrayColor];
         [self setupViews];
     }
     return self;
@@ -31,15 +31,40 @@
     [self addSubview:self.mainImgV];
 }
 
-- (void)setImageName:(NSString *)imageName {
-    _imageName = imageName;
+- (void)setImage:(id)image {
+    _image = image;
     
-    _mainImgV.image = [UIImage imageNamed:imageName];
+    if ([image isKindOfClass:[UIImage class]]) {
+        
+        _mainImgV.image = image;
+        
+    } else if ([image isKindOfClass:[NSURL class]]) {
+        
+        [_mainImgV sd_setImageWithURL:image];
+        
+    } else if ([image isKindOfClass:[NSString class]]) {
+        
+        if ([self isValidUrl:(NSString *)image]) {
+            [_mainImgV sd_setImageWithURL:[NSURL URLWithString:image]];
+        } else {
+            _mainImgV.image = [UIImage imageNamed:image];
+        }
+        
+    } else {
+        _mainImgV.image = nil;
+    }
+}
+
+- (BOOL)isValidUrl:(NSString *)url {
+    NSString *regex = @"[a-zA-z]+://[^\\s]*";
+    NSPredicate *urlTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
+    return [urlTest evaluateWithObject:url];
 }
 
 - (UIImageView *)mainImgV {
     if (!_mainImgV) {
         _mainImgV = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
+        [_mainImgV sd_setShowActivityIndicatorView:YES];
     }
     return _mainImgV;
 }

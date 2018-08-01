@@ -9,8 +9,8 @@
 
 @interface HHLoopViewCell : UICollectionViewCell
 
-/// 图片名称
-@property (nonatomic, copy) NSString *imageName;
+/// image(UIImage/NSURL/NSStirng)
+@property (nonatomic, strong) id image;
 
 + (NSString *)cellID;
 

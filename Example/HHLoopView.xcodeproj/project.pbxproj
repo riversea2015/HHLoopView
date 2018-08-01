@@ -66,7 +66,7 @@
 		9234AB10211063C1003F7734 /* HHEntranceVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HHEntranceVC.h; sourceTree = "<group>"; };
 		9234AB11211063C1003F7734 /* HHEntranceVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HHEntranceVC.m; sourceTree = "<group>"; };
 		958F5BCE7C91A667A39CFDA9 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
-		A77BD1DB998E2F339980D2A4 /* HHLoopView.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = HHLoopView.podspec; path = ../HHLoopView.podspec; sourceTree = "<group>"; };
+		A77BD1DB998E2F339980D2A4 /* HHLoopView.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = HHLoopView.podspec; path = ../HHLoopView.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		E222E0F4C2D7ADF1DF5AD305 /* Pods-HHLoopView_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HHLoopView_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-HHLoopView_Tests/Pods-HHLoopView_Tests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -321,10 +321,12 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-HHLoopView_Example/Pods-HHLoopView_Example-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/HHLoopView/HHLoopView.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HHLoopView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
