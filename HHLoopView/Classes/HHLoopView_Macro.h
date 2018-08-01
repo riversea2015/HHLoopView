@@ -3,6 +3,7 @@
 //  Pods
 //
 //  Created by hehai on 2018/7/31.
+//  Copyright © 2018 riversea2015. All rights reserved.
 //
 
 #ifndef HHLoopView_Macro_h
