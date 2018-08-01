@@ -1,6 +1,0 @@
-framework module HHLoopView {
-  umbrella header "HHLoopView-umbrella.h"
-
-  export *
-  module * { export * }
-}
