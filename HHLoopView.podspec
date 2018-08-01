@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'HHLoopView'
-  s.version          = '0.1.0'
+  s.version          = '0.1.1'
   s.summary          = 'A kind of loopView.'
 
 # This description is used to generate tags and improve search results.
@@ -33,8 +33,10 @@ Pod::Spec.new do |s|
   s.source_files = 'HHLoopView/Classes/**/*.{h,m}'
   
   # s.resource_bundles = {
-  #   'HHLoopView' => ['HHLoopView/Assets/*.png']
+  #   'HHLoopView' => ['HHLoopView/Assets/*.{jpg,png}']
   # }
+  # s.resources = 'HHLoopView/Assets/**/*.{jpg,png}'
+  
 
   s.public_header_files = 'HHLoopView/Classes/**/*.h'
 
