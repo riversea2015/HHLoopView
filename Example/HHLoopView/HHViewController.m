@@ -45,7 +45,7 @@ static NSString * const imageURLStrC = @"https://img1.360buyimg.com/da/jfs/t2287
 
 - (void)creatImagesArray {
     // Local images
-    _imageArr = @[@"HHLoopView_Pic_001", @"HHLoopView_Pic_002", @"HHLoopView_Pic_003"];
+    _imageArr = @[@"HHLoopView_Pic_001"];//, @"HHLoopView_Pic_002", @"HHLoopView_Pic_003"];
     
     // Image URLString
 //    _imageArr = @[imageURLStrA, imageURLStrB, imageURLStrC];

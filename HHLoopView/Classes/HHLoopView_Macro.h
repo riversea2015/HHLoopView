@@ -12,4 +12,7 @@
 #define HHScreenW [UIScreen mainScreen].bounds.size.width
 #define HHScreenH [UIScreen mainScreen].bounds.size.height
 
+#define HH_Arr_Class(arr) [arr isKindOfClass:[NSArray class]]
+#define HH_Arr_Is_Valid(arr) ((arr) && (HH_Arr_Class(arr)) && ([arr count] > 0))
+
 #endif /* HHLoopView_Macro_h */

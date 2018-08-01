@@ -3,11 +3,11 @@ use_frameworks!
 platform :ios, '8.0'
 
 target 'HHLoopView_Example' do
+    
   pod 'HHLoopView', :path => '../'
 
-  target 'HHLoopView_Tests' do
+  target 'HHLoopView_Tests' do 
     inherit! :search_paths
-
-    
   end
+  
 end

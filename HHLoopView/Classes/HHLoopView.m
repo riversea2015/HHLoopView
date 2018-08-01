@@ -12,6 +12,7 @@
 
 static const int HHMaxSectionCount = 50;
 static const NSTimeInterval HHLoopViewKeepTime = 3;
+static const int HHDotWidth = 10;
 
 @interface HHLoopView ()
 <
@@ -20,6 +21,7 @@ UICollectionViewDataSource
 >
 
 @property (nonatomic, strong) UICollectionView *mainCollectionView;
+@property (nonatomic, strong) UIPageControl *pageControl;
 @property (nonatomic, strong) NSArray *imageList;
 @property (nonatomic, strong) NSTimer *timer;
 @property (nonatomic, copy) void(^clickBlock)(int intIndex);
@@ -49,6 +51,12 @@ UICollectionViewDataSource
 
 - (void)setupViews {
     [self addSubview:self.mainCollectionView];
+    [self addSubview:self.pageControl];
+    
+    if (!HH_Arr_Is_Valid(_imageList) || _imageList.count <= 1) {
+        return;
+    }
+    
     [_mainCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:HHMaxSectionCount/2] atScrollPosition:UICollectionViewScrollPositionLeft animated:YES];
 }
 
@@ -74,10 +82,21 @@ UICollectionViewDataSource
     return _mainCollectionView;
 }
 
+- (UIPageControl *)pageControl {
+    if (!_pageControl) {
+        CGFloat pageWidth = _imageList.count * HHDotWidth;
+        _pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake((HHScreenW-pageWidth)/2, CGRectGetMaxY(self.frame)-30, pageWidth, 30)];
+        _pageControl.hidesForSinglePage = YES;
+        _pageControl.numberOfPages = _imageList.count;
+    }
+    
+    return _pageControl;
+}
+
 #pragma mark - UICollectionView DataSource
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    return HHMaxSectionCount;
+    return (_imageList.count == 1) ? 1 : HHMaxSectionCount;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -111,9 +130,18 @@ UICollectionViewDataSource
     [self addTimer];
 }
 
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    int page = (int)(scrollView.contentOffset.x/scrollView.frame.size.width + 0.5)%_imageList.count;
+    self.pageControl.currentPage = page;
+}
+
 #pragma mark - Add or Remove Timer
 
 - (void)addTimer {
+    
+    if (!HH_Arr_Is_Valid(_imageList) || _imageList.count <= 1) {
+        return;
+    }
     
     __weak typeof(self) weakSelf = self;
     _timer = [NSTimer hh_timerwithTimeInterval:HHLoopViewKeepTime block:^{
@@ -124,6 +152,11 @@ UICollectionViewDataSource
 }
 
 - (void)removeTimer {
+    
+    if (!HH_Arr_Is_Valid(_imageList) || _imageList.count <= 1) {
+        return;
+    }
+    
     [self.timer invalidate];
     self.timer = nil;
 }
@@ -144,6 +177,8 @@ UICollectionViewDataSource
     NSIndexPath *nextIndexPath = [NSIndexPath indexPathForItem:nextItem inSection:nextSection];
     
     [_mainCollectionView scrollToItemAtIndexPath:nextIndexPath atScrollPosition:UICollectionViewScrollPositionLeft animated:YES];
+    
+    self.pageControl.currentPage = nextItem;
 }
 
 #pragma mark - dealloc
