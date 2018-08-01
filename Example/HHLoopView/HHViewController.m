@@ -44,16 +44,22 @@ static NSString * const imageURLStrC = @"https://img1.360buyimg.com/da/jfs/t2287
 }
 
 - (void)creatImagesArray {
-    // Local images
+    
+    // 1.Local image name
     _imageArr = @[@"HHLoopView_Pic_001", @"HHLoopView_Pic_002", @"HHLoopView_Pic_003"];
     
-    // Image URLString
+    // 2.Image URLString
 //    _imageArr = @[imageURLStrA, imageURLStrB, imageURLStrC];
 
-    // Image NSURL
+    // 3.Image NSURL
 //    _imageArr = @[[NSURL URLWithString:imageURLStrA],
 //                  [NSURL URLWithString:imageURLStrB],
 //                  [NSURL URLWithString:imageURLStrC]];
+    
+    // 4.UIImage
+//    _imageArr = @[[UIImage imageNamed:@"HHLoopView_Pic_001"],
+//                  [UIImage imageNamed:@"HHLoopView_Pic_002"],
+//                  [UIImage imageNamed:@"HHLoopView_Pic_003"]];
 }
 
 #pragma mark - dealloc
