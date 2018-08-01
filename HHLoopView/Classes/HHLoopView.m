@@ -18,17 +18,11 @@ UICollectionViewDelegate,
 UICollectionViewDataSource
 >
 
-/// 主列表
 @property (nonatomic, strong) UICollectionView *mainCollectionView;
-
-/// 点击的block(仅为针对图片)
-@property (nonatomic, copy) void(^clickBlock)(int intIndex);
-/// 图片数组(UIImage、NSString、NSURL)
 @property (nonatomic, strong) NSArray *imageList;
-/// 点击的图片序号
-@property (nonatomic, assign) int touchedIndex;
-/// 定时器
 @property (nonatomic, strong) NSTimer *timer;
+@property (nonatomic, copy) void(^clickBlock)(int intIndex);
+@property (nonatomic, assign) int touchedIndex;
 
 @end
 

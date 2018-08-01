@@ -9,6 +9,10 @@
 #import "HHViewController.h"
 #import <HHLoopView/HHLoopView.h>
 
+static NSString * const imageURLStrA = @"https://img1.360buyimg.com/da/jfs/t24562/184/1418104397/214103/e874a7f/5b5fc408N35c13ba2.jpg";
+static NSString * const imageURLStrB = @"https://img1.360buyimg.com/da/jfs/t24274/246/1424986034/488086/9c0f26c4/5b5fd9c7N02885d73.jpg";
+static NSString * const imageURLStrC = @"https://img1.360buyimg.com/da/jfs/t22870/361/1339872747/169156/89e765aa/5b5c0b22N29eadd89.jpg";
+
 @implementation HHViewController {
     NSArray *_imageArr;
 }
@@ -31,27 +35,25 @@
     [self creatImagesArray];
 
     HHLoopView *loopV = [[HHLoopView alloc] initWithFrame:CGRectMake(0, 64, [UIScreen mainScreen].bounds.size.width, 240) images:_imageArr clickAction:^(int intIndex) {
-        NSLog(@"-------------------");
-        NSLog(@"---点击了第%d个图片---", intIndex);
-        NSLog(@"-------------------");
+        NSLog(@"-------------------------");
+        NSLog(@"------点击了第%d个图片------", intIndex);
+        NSLog(@"-------------------------");
     }];
     
     [self.view addSubview:loopV];
 }
 
 - (void)creatImagesArray {
-    // 本地图片
-        _imageArr = @[@"HHLoopView_Pic_001", @"HHLoopView_Pic_002", @"HHLoopView_Pic_003"];
+    // Local images
+    _imageArr = @[@"HHLoopView_Pic_001", @"HHLoopView_Pic_002", @"HHLoopView_Pic_003"];
     
-    // URLString
-//    _imageArr = @[@"https://img1.360buyimg.com/da/jfs/t24562/184/1418104397/214103/e874a7f/5b5fc408N35c13ba2.jpg",
-//                  @"https://img1.360buyimg.com/da/jfs/t24274/246/1424986034/488086/9c0f26c4/5b5fd9c7N02885d73.jpg",
-//                  @"https://img1.360buyimg.com/da/jfs/t22870/361/1339872747/169156/89e765aa/5b5c0b22N29eadd89.jpg"];
+    // Image URLString
+//    _imageArr = @[imageURLStrA, imageURLStrB, imageURLStrC];
 
-    // NSURL
-//    _imageArr = @[[NSURL URLWithString:@"https://img1.360buyimg.com/da/jfs/t24562/184/1418104397/214103/e874a7f/5b5fc408N35c13ba2.jpg"],
-//                  [NSURL URLWithString:@"https://img1.360buyimg.com/da/jfs/t24274/246/1424986034/488086/9c0f26c4/5b5fd9c7N02885d73.jpg"],
-//                  [NSURL URLWithString:@"https://img1.360buyimg.com/da/jfs/t22870/361/1339872747/169156/89e765aa/5b5c0b22N29eadd89.jpg"]];
+    // Image NSURL
+//    _imageArr = @[[NSURL URLWithString:imageURLStrA],
+//                  [NSURL URLWithString:imageURLStrB],
+//                  [NSURL URLWithString:imageURLStrC]];
 }
 
 #pragma mark - dealloc
