@@ -34,13 +34,16 @@ static NSString * const imageURLStrC = @"https://img1.360buyimg.com/da/jfs/t2287
     
     [self creatImagesArray];
 
-    HHLoopView *loopV = [[HHLoopView alloc] initWithFrame:CGRectMake(0, 64, [UIScreen mainScreen].bounds.size.width, 240) images:_imageArr clickAction:^(int intIndex) {
+    // 常规
+    HHLoopView *loopViewNormal = [[HHLoopView alloc] initWithFrame:CGRectMake(0, 64+10, [UIScreen mainScreen].bounds.size.width, 240)
+                                                            images:_imageArr
+                                                       clickAction:^(int intIndex)
+    {
         NSLog(@"-------------------------");
         NSLog(@"------点击了第%d个图片------", intIndex);
         NSLog(@"-------------------------");
     }];
-    
-    [self.view addSubview:loopV];
+    [self.view addSubview:loopViewNormal];
 }
 
 - (void)creatImagesArray {

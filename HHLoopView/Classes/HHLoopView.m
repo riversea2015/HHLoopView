@@ -73,7 +73,8 @@ UICollectionViewDataSource
         layout.itemSize = CGSizeMake(self.frame.size.width, self.frame.size.height);
         layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
         
-        _mainCollectionView = [[UICollectionView alloc] initWithFrame:self.frame collectionViewLayout:layout];
+        _mainCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)
+                                                 collectionViewLayout:layout];
         _mainCollectionView.backgroundColor = [UIColor whiteColor];
         _mainCollectionView.showsHorizontalScrollIndicator = NO;
         _mainCollectionView.showsVerticalScrollIndicator = NO;
@@ -89,7 +90,7 @@ UICollectionViewDataSource
 - (UIPageControl *)pageControl {
     if (!_pageControl) {
         CGFloat pageWidth = _imageList.count * HHDotWidth;
-        _pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake((HHScreenW-pageWidth)/2, CGRectGetMaxY(self.frame)-30, pageWidth, 30)];
+        _pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake((HHScreenW-pageWidth)/2, CGRectGetMaxY(self.bounds)-30, pageWidth, 30)];
         _pageControl.hidesForSinglePage = YES;
         _pageControl.numberOfPages = _imageList.count;
     }
