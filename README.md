@@ -11,7 +11,7 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 
 ## ScreenShot
 
-To be continued...
+![Mou icon](https://github.com/riversea2015/HHLoopView/blob/master/ScreenShot/HHLoopView.gif?raw=true)
 
 ## Requirements
 
