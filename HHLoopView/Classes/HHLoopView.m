@@ -57,7 +57,11 @@ UICollectionViewDataSource
         return;
     }
     
-    [_mainCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:HHMaxSectionCount/2] atScrollPosition:UICollectionViewScrollPositionLeft animated:YES];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.mainCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:HHMaxSectionCount/2]
+                                        atScrollPosition:UICollectionViewScrollPositionLeft
+                                                animated:NO];
+    });
 }
 
 - (UICollectionView *)mainCollectionView {
@@ -164,9 +168,10 @@ UICollectionViewDataSource
 - (void)nextPage {
     
     NSIndexPath *currentIndexPath = [[_mainCollectionView indexPathsForVisibleItems] lastObject];
-    
     NSIndexPath *currentIndexPathRest = [NSIndexPath indexPathForItem:currentIndexPath.item inSection:HHMaxSectionCount/2];
-    [_mainCollectionView scrollToItemAtIndexPath:currentIndexPathRest atScrollPosition:UICollectionViewScrollPositionLeft animated:NO];
+    [_mainCollectionView scrollToItemAtIndexPath:currentIndexPathRest
+                                atScrollPosition:UICollectionViewScrollPositionLeft
+                                        animated:NO];
     
     NSInteger nextItem = currentIndexPathRest.item + 1;
     NSInteger nextSection = currentIndexPathRest.section;
@@ -176,7 +181,9 @@ UICollectionViewDataSource
     }
     NSIndexPath *nextIndexPath = [NSIndexPath indexPathForItem:nextItem inSection:nextSection];
     
-    [_mainCollectionView scrollToItemAtIndexPath:nextIndexPath atScrollPosition:UICollectionViewScrollPositionLeft animated:YES];
+    [_mainCollectionView scrollToItemAtIndexPath:nextIndexPath
+                                atScrollPosition:UICollectionViewScrollPositionLeft
+                                        animated:YES];
     
     self.pageControl.currentPage = nextItem;
 }
