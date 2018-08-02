@@ -37,6 +37,7 @@ static NSString * const imageURLStrC = @"https://img1.360buyimg.com/da/jfs/t2287
     // 常规
     HHLoopView *loopViewNormal = [[HHLoopView alloc] initWithFrame:CGRectMake(0, 64+10, [UIScreen mainScreen].bounds.size.width, 240)
                                                             images:_imageArr
+                                                         direction:HHLoopHorizontal
                                                        clickAction:^(int intIndex)
     {
         NSLog(@"--------------------------------------------------");
@@ -50,6 +51,7 @@ static NSString * const imageURLStrC = @"https://img1.360buyimg.com/da/jfs/t2287
                                                        customViews:@[[self ceateCustomView:[UIColor greenColor] tag:2018080201 imageName:@"HHLoopView_Icon_01"],
                                                                      [self ceateCustomView:[UIColor redColor] tag:2018080202 imageName:@"HHLoopView_Icon_02"],
                                                                      [self ceateCustomView:[UIColor yellowColor] tag:2018080203 imageName:@"HHLoopView_Icon_03"]]
+                                                         direction:HHLoopVertical
                                                        clickAction:^(int intIndex)
     {
         NSLog(@"++++++++++++++++++++++++++++++++++++++++++++++++++");

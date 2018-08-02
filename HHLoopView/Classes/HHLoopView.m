@@ -44,23 +44,23 @@ UICollectionViewDataSource
 #pragma mark - init Views
 
 // pulic
-- (instancetype)initWithFrame:(CGRect)frame images:(NSArray *)imgArr clickAction:(void (^)(int))clickAction {
-    return [self initWithFrame:frame images:imgArr customViews:nil  direction:UICollectionViewScrollDirectionHorizontal clickAction:clickAction];
+- (instancetype)initWithFrame:(CGRect)frame images:(NSArray *)imgArr direction:(HHLoopDirection)loopDirection clickAction:(void (^)(int))clickAction {
+    return [self initWithFrame:frame images:imgArr customViews:nil direction:loopDirection clickAction:clickAction];
 }
 
 // public
-- (instancetype)initWithFrame:(CGRect)frame customViews:(NSArray *)customViews clickAction:(void (^)(int))clickAction {
-    return [self initWithFrame:frame images:nil customViews:customViews direction:UICollectionViewScrollDirectionHorizontal clickAction:clickAction];
+- (instancetype)initWithFrame:(CGRect)frame customViews:(NSArray *)customViews direction:(HHLoopDirection)loopDirection clickAction:(void (^)(int))clickAction {
+    return [self initWithFrame:frame images:nil customViews:customViews direction:loopDirection clickAction:clickAction];
 }
 
-- (instancetype)initWithFrame:(CGRect)frame images:(NSArray *)imgArr customViews:(NSArray *)customViews direction:(UICollectionViewScrollDirection)scrollDirection clickAction:(void (^)(int))clickAction {
+- (instancetype)initWithFrame:(CGRect)frame images:(NSArray *)imgArr customViews:(NSArray *)customViews direction:(HHLoopDirection)loopDirection clickAction:(void (^)(int))clickAction {
     self = [super initWithFrame:frame];
     if (self) {
         _needPageControl = YES;
         _imageList = imgArr;
         _customViewList = customViews;
         _clickBlock = clickAction;
-        _scrollDirection = scrollDirection == UICollectionViewScrollDirectionHorizontal ? : UICollectionViewScrollDirectionVertical;
+        _scrollDirection = loopDirection == HHLoopHorizontal ? UICollectionViewScrollDirectionHorizontal : UICollectionViewScrollDirectionVertical;
         
         [self setupViews];
         [self addTimer];
@@ -69,8 +69,12 @@ UICollectionViewDataSource
 }
 
 - (void)setupViews {
+    
     [self addSubview:self.mainCollectionView];
-    [self addSubview:self.pageControl];
+    
+    if (_scrollDirection == UICollectionViewScrollDirectionHorizontal) {
+        [self addSubview:self.pageControl];
+    }
     
     if (!HH_Arr_Is_Valid(_imageList) || _imageList.count <= 1) {
         return;
@@ -213,10 +217,12 @@ UICollectionViewDataSource
 
 - (void)nextPage {
     
+    UICollectionViewScrollPosition scrollPosition = _scrollDirection == UICollectionViewScrollDirectionHorizontal ? UICollectionViewScrollPositionLeft : UICollectionViewScrollPositionTop;
+    
     NSIndexPath *currentIndexPath = [[_mainCollectionView indexPathsForVisibleItems] lastObject];
     NSIndexPath *currentIndexPathRest = [NSIndexPath indexPathForItem:currentIndexPath.item inSection:HHMaxSectionCount/2];
     [_mainCollectionView scrollToItemAtIndexPath:currentIndexPathRest
-                                atScrollPosition:UICollectionViewScrollPositionLeft
+                                atScrollPosition:scrollPosition
                                         animated:NO];
     
     NSInteger nextItem = currentIndexPathRest.item + 1;
@@ -229,7 +235,7 @@ UICollectionViewDataSource
     NSIndexPath *nextIndexPath = [NSIndexPath indexPathForItem:nextItem inSection:nextSection];
     
     [_mainCollectionView scrollToItemAtIndexPath:nextIndexPath
-                                atScrollPosition:UICollectionViewScrollPositionLeft
+                                atScrollPosition:scrollPosition
                                         animated:YES];
     
     self.pageControl.currentPage = nextItem;

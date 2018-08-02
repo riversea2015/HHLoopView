@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSInteger, HHLoopDirection) {
+    HHLoopHorizontal,
+    HHLoopVertical
+};
+
 @interface HHLoopView : UIView
 
 /// 是否需要展示 pageControl，默认为YES
@@ -23,6 +28,7 @@
  */
 - (instancetype)initWithFrame:(CGRect)frame
                        images:(NSArray *)imgArr
+                    direction:(HHLoopDirection)loopDirection
                   clickAction:(void(^)(int intIndex))clickAction;
 
 /**
@@ -36,6 +42,7 @@
  */
 - (instancetype)initWithFrame:(CGRect)frame
                   customViews:(NSArray *)customViews
+                    direction:(HHLoopDirection)loopDirection
                   clickAction:(void (^)(int))clickAction;
 
 @end
