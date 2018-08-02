@@ -39,11 +39,24 @@ static NSString * const imageURLStrC = @"https://img1.360buyimg.com/da/jfs/t2287
                                                             images:_imageArr
                                                        clickAction:^(int intIndex)
     {
-        NSLog(@"-------------------------");
-        NSLog(@"------点击了第%d个图片------", intIndex);
-        NSLog(@"-------------------------");
+        NSLog(@"--------------------------------------------------");
+        NSLog(@"------ UIImageView did clicked ------ NO.%d ------", intIndex);
+        NSLog(@"--------------------------------------------------");
     }];
     [self.view addSubview:loopViewNormal];
+
+    // 用户自定义
+    HHLoopView *loopViewCustom = [[HHLoopView alloc] initWithFrame:CGRectMake(0, 64+240+20, [UIScreen mainScreen].bounds.size.width, 240)
+                                                       customViews:@[[self ceateCustomView:[UIColor greenColor] tag:2018080201 imageName:@"HHLoopView_Icon_01"],
+                                                                     [self ceateCustomView:[UIColor redColor] tag:2018080202 imageName:@"HHLoopView_Icon_02"],
+                                                                     [self ceateCustomView:[UIColor yellowColor] tag:2018080203 imageName:@"HHLoopView_Icon_03"]]
+                                                       clickAction:^(int intIndex)
+    {
+        NSLog(@"++++++++++++++++++++++++++++++++++++++++++++++++++");
+        NSLog(@"++++++ CustomView did clicked ++++++ NO.%d +++++++", intIndex);
+        NSLog(@"++++++++++++++++++++++++++++++++++++++++++++++++++");
+    }];
+    [self.view addSubview:loopViewCustom];
 }
 
 - (void)creatImagesArray {
@@ -63,6 +76,38 @@ static NSString * const imageURLStrC = @"https://img1.360buyimg.com/da/jfs/t2287
 //    _imageArr = @[[UIImage imageNamed:@"HHLoopView_Pic_001"],
 //                  [UIImage imageNamed:@"HHLoopView_Pic_002"],
 //                  [UIImage imageNamed:@"HHLoopView_Pic_003"]];
+}
+
+- (UIView *)ceateCustomView:(UIColor *)color tag:(NSInteger)tag imageName:(NSString *)imageName {
+    
+    UIView *customV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 240)];
+    customV.backgroundColor = color;
+    
+    UILabel *testL = [[UILabel alloc] initWithFrame:CGRectMake(20, 20, [UIScreen mainScreen].bounds.size.width-40, 30)];
+    testL.text = [NSString stringWithFormat:@"CustomView -- NO.%ld", tag];
+    testL.backgroundColor = [UIColor whiteColor];
+    testL.textAlignment = NSTextAlignmentCenter;
+    [customV addSubview:testL];
+    
+    UIImageView *imgV = [[UIImageView alloc] initWithFrame:CGRectMake(20, 120-30, 60, 60)];
+    imgV.image = [UIImage imageNamed:imageName];
+    [customV addSubview:imgV];
+    
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn.frame = CGRectMake(100, 120-30, [UIScreen mainScreen].bounds.size.width-120, 60);
+    btn.backgroundColor = [UIColor whiteColor];
+    btn.titleLabel.font = [UIFont systemFontOfSize:22];
+    btn.tag = tag+10;
+    [btn setTitle:[NSString stringWithFormat:@"Click Here! - NO.%ld", tag+10] forState:UIControlStateNormal];
+    [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [btn addTarget:self action:@selector(clickBtn:) forControlEvents:UIControlEventTouchUpInside];
+    [customV addSubview:btn];
+    
+    return customV;
+}
+
+- (void)clickBtn:(UIButton *)sender {
+    NSLog(@"---- 🎉 You are clicking the right button : NO.%ld 🎉 ----", sender.tag);
 }
 
 #pragma mark - dealloc

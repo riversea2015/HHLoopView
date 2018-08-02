@@ -21,27 +21,46 @@ UICollectionViewDataSource
 >
 
 @property (nonatomic, strong) UICollectionView *mainCollectionView;
+
 @property (nonatomic, strong) UIPageControl *pageControl;
+
 @property (nonatomic, strong) NSArray *imageList;
+
+@property (nonatomic, strong) NSArray *customViewList;
+
 @property (nonatomic, strong) NSTimer *timer;
+
 @property (nonatomic, copy) void(^clickBlock)(int intIndex);
+
 @property (nonatomic, assign) int touchedIndex;
 
+@property (nonatomic, assign) UICollectionViewScrollDirection scrollDirection;
+
 @end
+
 
 @implementation HHLoopView
 
 #pragma mark - init Views
 
+// pulic
 - (instancetype)initWithFrame:(CGRect)frame images:(NSArray *)imgArr clickAction:(void (^)(int))clickAction {
-    return [self initWithFrame:frame images:imgArr customViews:nil clickAction:clickAction];
+    return [self initWithFrame:frame images:imgArr customViews:nil  direction:UICollectionViewScrollDirectionHorizontal clickAction:clickAction];
 }
 
-- (instancetype)initWithFrame:(CGRect)frame images:(NSArray *)imgArr customViews:(NSArray *)customViews clickAction:(void (^)(int))clickAction {
+// public
+- (instancetype)initWithFrame:(CGRect)frame customViews:(NSArray *)customViews clickAction:(void (^)(int))clickAction {
+    return [self initWithFrame:frame images:nil customViews:customViews direction:UICollectionViewScrollDirectionHorizontal clickAction:clickAction];
+}
+
+- (instancetype)initWithFrame:(CGRect)frame images:(NSArray *)imgArr customViews:(NSArray *)customViews direction:(UICollectionViewScrollDirection)scrollDirection clickAction:(void (^)(int))clickAction {
     self = [super initWithFrame:frame];
     if (self) {
+        _needPageControl = YES;
         _imageList = imgArr;
+        _customViewList = customViews;
         _clickBlock = clickAction;
+        _scrollDirection = scrollDirection == UICollectionViewScrollDirectionHorizontal ? : UICollectionViewScrollDirectionVertical;
         
         [self setupViews];
         [self addTimer];
@@ -71,7 +90,7 @@ UICollectionViewDataSource
         layout.minimumLineSpacing = 0;
         layout.minimumInteritemSpacing = 0;
         layout.itemSize = CGSizeMake(self.frame.size.width, self.frame.size.height);
-        layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+        layout.scrollDirection = _scrollDirection;
         
         _mainCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)
                                                  collectionViewLayout:layout];
@@ -89,30 +108,49 @@ UICollectionViewDataSource
 
 - (UIPageControl *)pageControl {
     if (!_pageControl) {
-        CGFloat pageWidth = _imageList.count * HHDotWidth;
+        CGFloat pageWidth = (HH_Arr_Is_Valid(_imageList) ? _imageList.count : _customViewList.count) * HHDotWidth;
         _pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake((HHScreenW-pageWidth)/2, CGRectGetMaxY(self.bounds)-30, pageWidth, 30)];
         _pageControl.hidesForSinglePage = YES;
-        _pageControl.numberOfPages = _imageList.count;
+        _pageControl.numberOfPages = HH_Arr_Is_Valid(_imageList) ? _imageList.count : _customViewList.count;
     }
     
     return _pageControl;
 }
 
+- (void)setNeedPageControl:(BOOL)needPageControl {
+    _needPageControl = needPageControl;
+    _pageControl.hidden = !needPageControl;
+}
+
 #pragma mark - UICollectionView DataSource
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
+    if (HH_Arr_Is_Valid(_customViewList)) {
+        return (_customViewList.count == 1) ? 1 : HHMaxSectionCount;
+    }
     return (_imageList.count == 1) ? 1 : HHMaxSectionCount;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    if (HH_Arr_Is_Valid(_customViewList)) {
+        return _customViewList.count;
+    }
     return _imageList.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     HHLoopViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:[HHLoopViewCell cellID] forIndexPath:indexPath];
     
-    NSString *strName = _imageList[indexPath.item];
-    cell.image = strName;
+    NSString *strName = nil;
+    UIView *customView = nil;
+    
+    if (HH_Arr_Is_Valid(_imageList)) {
+        strName = _imageList[indexPath.item];
+        cell.image = strName;
+    } else if (HH_Arr_Is_Valid(_customViewList)) {
+        customView = _customViewList[indexPath.row];
+        cell.customView = customView;
+    }
     
     return cell;
 }
@@ -136,7 +174,14 @@ UICollectionViewDataSource
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    int page = (int)(scrollView.contentOffset.x/scrollView.frame.size.width + 0.5)%_imageList.count;
+    
+    int page = 0;
+    if (HH_Arr_Is_Valid(_imageList)) {
+        page = (int)(scrollView.contentOffset.x/scrollView.frame.size.width + 0.5)%_imageList.count;
+    } else if (HH_Arr_Is_Valid(_customViewList)) {
+        page = (int)(scrollView.contentOffset.x/scrollView.frame.size.width + 0.5)%_customViewList.count;
+    }
+    
     self.pageControl.currentPage = page;
 }
 
@@ -144,7 +189,7 @@ UICollectionViewDataSource
 
 - (void)addTimer {
     
-    if (!HH_Arr_Is_Valid(_imageList) || _imageList.count <= 1) {
+    if ((!HH_Arr_Is_Valid(_imageList) || _imageList.count <= 1) && (!HH_Arr_Is_Valid(_customViewList) || _customViewList.count <= 1)) {
         return;
     }
     
@@ -158,7 +203,7 @@ UICollectionViewDataSource
 
 - (void)removeTimer {
     
-    if (!HH_Arr_Is_Valid(_imageList) || _imageList.count <= 1) {
+    if ((!HH_Arr_Is_Valid(_imageList) || _imageList.count <= 1) && (!HH_Arr_Is_Valid(_customViewList) || _customViewList.count <= 1)) {
         return;
     }
     
@@ -176,7 +221,8 @@ UICollectionViewDataSource
     
     NSInteger nextItem = currentIndexPathRest.item + 1;
     NSInteger nextSection = currentIndexPathRest.section;
-    if (nextItem == _imageList.count) {
+    NSInteger count = HH_Arr_Is_Valid(_imageList) ? _imageList.count : _customViewList.count;
+    if (nextItem == count) {
         nextItem = 0;
         nextSection++;
     }

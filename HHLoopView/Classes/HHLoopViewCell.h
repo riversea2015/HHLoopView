@@ -10,8 +10,10 @@
 
 @interface HHLoopViewCell : UICollectionViewCell
 
-/// image(UIImage/NSURL/NSStirng)
+/// Image(UIImage/NSURL/NSStirng)
 @property (nonatomic, strong) id image;
+/// CustomView
+@property (nonatomic, strong) UIView *customView;
 
 + (NSString *)cellID;
 

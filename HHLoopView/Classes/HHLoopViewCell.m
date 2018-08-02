@@ -17,10 +17,8 @@
 
 @implementation HHLoopViewCell
 
-- (instancetype)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
-    if (self) {
+- (instancetype)initWithFrame:(CGRect)frame {
+    if (self = [super initWithFrame:frame]) {
         self.backgroundColor = [UIColor lightGrayColor];
         [self setupViews];
     }
@@ -28,12 +26,23 @@
 }
 
 - (void)setupViews {
-    
     [self addSubview:self.mainImgV];
+}
+
+- (void)setCustomView:(UIView *)customView {
+    if (_customView == customView) {
+        return;
+    }
+    _customView = customView;
+    customView.userInteractionEnabled = YES;
+    
+    [self addSubview:customView];
 }
 
 - (void)setImage:(id)image {
     _image = image;
+    
+    _mainImgV.hidden = NO;
     
     if ([image isKindOfClass:[UIImage class]]) {
         
@@ -66,9 +75,18 @@
     if (!_mainImgV) {
         _mainImgV = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
         [_mainImgV sd_setShowActivityIndicatorView:YES];
+        _mainImgV.hidden = YES;
     }
     return _mainImgV;
 }
+
+#pragma mark - override
+
+//- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+//
+//}
+
+#pragma mark - Class Method
 
 + (NSString *)cellID {
     return NSStringFromClass([self class]);
