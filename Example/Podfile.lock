@@ -1,5 +1,5 @@
 PODS:
-  - HHLoopView (0.2.0):
+  - HHLoopView (0.3.0):
     - SDWebImage
   - SDWebImage (4.4.1):
     - SDWebImage/Core (= 4.4.1)
@@ -17,7 +17,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  HHLoopView: f6cefec02b8994e44a1932f1aa1f411a156b0bbc
+  HHLoopView: 1c5d1e0c3f920347c30df16b32d09b6d6c770431
   SDWebImage: 47e9b5b925cbce75946c23f0c42dd19464189af4
 
 PODFILE CHECKSUM: 2535cf9999d87d01d8965f93ca1976c74d8e7212
