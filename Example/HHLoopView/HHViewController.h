@@ -8,6 +8,16 @@
 
 @import UIKit;
 
+typedef NS_ENUM(NSInteger, HHImgType) {
+    HHImgType_LocalName,
+    HHImgType_URLString,
+    HHImgType_URL,
+    HHImgType_Image,
+    HHImgType_CustomView
+};
+
 @interface HHViewController : UIViewController
+
+- (instancetype)initWithType:(HHImgType)type;
 
 @end

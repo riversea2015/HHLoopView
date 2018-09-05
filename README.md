@@ -31,3 +31,7 @@ riversea2015, hehai682@126.com
 ## License
 
 HHLoopView is available under the MIT license. See the LICENSE file for more info.
+
+## Note
+
+The pictures used in the example is collected from the Internet, please do not use them for commercial purposes.

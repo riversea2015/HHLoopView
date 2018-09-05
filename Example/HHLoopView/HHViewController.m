@@ -13,14 +13,30 @@ static NSString * const imageURLStrA = @"https://img1.360buyimg.com/da/jfs/t2456
 static NSString * const imageURLStrB = @"https://img1.360buyimg.com/da/jfs/t24274/246/1424986034/488086/9c0f26c4/5b5fd9c7N02885d73.jpg";
 static NSString * const imageURLStrC = @"https://img1.360buyimg.com/da/jfs/t22870/361/1339872747/169156/89e765aa/5b5c0b22N29eadd89.jpg";
 
+
+@interface HHViewController ()
+
+@property (nonatomic, assign) HHImgType imgType;
+
+@end
+
+
 @implementation HHViewController {
     NSArray *_imageArr;
 }
 
 #pragma mark - life cycle
 
-- (void)viewDidLoad
-{
+- (instancetype)initWithType:(HHImgType)type {
+    self = [super init];
+    if (self) {
+        _imgType = type;
+    }
+    return self;
+}
+
+- (void)viewDidLoad {
+    
     [super viewDidLoad];
 	self.title = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleExecutableKey];
     self.view.backgroundColor = [UIColor lightGrayColor];
@@ -32,52 +48,60 @@ static NSString * const imageURLStrC = @"https://img1.360buyimg.com/da/jfs/t2287
 
 - (void)setupImageLoopView {
     
-    [self creatImagesArray];
-
-    // 常规
+    // Horizontal
     HHLoopView *loopViewNormal = [[HHLoopView alloc] initWithFrame:CGRectMake(0, 64+10, [UIScreen mainScreen].bounds.size.width, 240)
-                                                            images:_imageArr
+                                                            images:[self imageArrayWithType:_imgType]
                                                          direction:HHLoopHorizontal
                                                        clickAction:^(int intIndex)
     {
-        NSLog(@"--------------------------------------------------");
-        NSLog(@"------ UIImageView did clicked ------ NO.%d ------", intIndex);
-        NSLog(@"--------------------------------------------------");
+        NSLog(@"------ HHLoopView - Horizontal did clicked ------ NO.%d ------", intIndex);
     }];
     [self.view addSubview:loopViewNormal];
 
-    // 用户自定义
+    // Vertical
     HHLoopView *loopViewCustom = [[HHLoopView alloc] initWithFrame:CGRectMake(0, 64+240+20, [UIScreen mainScreen].bounds.size.width, 240)
-                                                            images:@[[self ceateCustomView:[UIColor greenColor] tag:2018080201 imageName:@"HHLoopView_Icon_01"],
-                                                                     [self ceateCustomView:[UIColor redColor] tag:2018080202 imageName:@"HHLoopView_Icon_02"],
-                                                                     [self ceateCustomView:[UIColor yellowColor] tag:2018080203 imageName:@"HHLoopView_Icon_03"]]
+                                                            images:[self imageArrayWithType:_imgType]
                                                          direction:HHLoopVertical
                                                        clickAction:^(int intIndex)
     {
-        NSLog(@"++++++++++++++++++++++++++++++++++++++++++++++++++");
-        NSLog(@"++++++ CustomView did clicked ++++++ NO.%d +++++++", intIndex);
-        NSLog(@"++++++++++++++++++++++++++++++++++++++++++++++++++");
+        NSLog(@"++++++ HHLoopView - Vertical did clicked ++++++ NO.%d +++++++", intIndex);
     }];
     [self.view addSubview:loopViewCustom];
 }
 
-- (void)creatImagesArray {
-    
-    // 1.Local image name
-    _imageArr = @[@"HHLoopView_Pic_001", @"HHLoopView_Pic_002", @"HHLoopView_Pic_003"];
-    
-    // 2.Image URLString
-//    _imageArr = @[imageURLStrA, imageURLStrB, imageURLStrC];
+#pragma mark - prepare data & create view
 
-    // 3.Image NSURL
-//    _imageArr = @[[NSURL URLWithString:imageURLStrA],
-//                  [NSURL URLWithString:imageURLStrB],
-//                  [NSURL URLWithString:imageURLStrC]];
+- (NSArray *)imageArrayWithType:(HHImgType)imgType {
     
-    // 4.UIImage
-//    _imageArr = @[[UIImage imageNamed:@"HHLoopView_Pic_001"],
-//                  [UIImage imageNamed:@"HHLoopView_Pic_002"],
-//                  [UIImage imageNamed:@"HHLoopView_Pic_003"]];
+    NSArray *imageArr = nil;
+    
+    switch (imgType) {
+        case HHImgType_LocalName:
+            imageArr = @[@"HHLoopView_Pic_001", @"HHLoopView_Pic_002", @"HHLoopView_Pic_003"];
+            break;
+        case HHImgType_URLString:
+            imageArr = @[imageURLStrA, imageURLStrB, imageURLStrC];
+            break;
+        case HHImgType_URL:
+            imageArr = @[[NSURL URLWithString:imageURLStrA],
+                         [NSURL URLWithString:imageURLStrB],
+                         [NSURL URLWithString:imageURLStrC]];
+            break;
+        case HHImgType_Image:
+            imageArr = @[[UIImage imageNamed:@"HHLoopView_Pic_001"],
+                         [UIImage imageNamed:@"HHLoopView_Pic_002"],
+                         [UIImage imageNamed:@"HHLoopView_Pic_003"]];
+            break;
+        case HHImgType_CustomView:
+            imageArr = @[[self ceateCustomView:[UIColor greenColor] tag:2018080201 imageName:@"HHLoopView_Icon_01"],
+                         [self ceateCustomView:[UIColor redColor] tag:2018080202 imageName:@"HHLoopView_Icon_02"],
+                         [self ceateCustomView:[UIColor yellowColor] tag:2018080203 imageName:@"HHLoopView_Icon_03"]];
+            break;
+        default:
+            break;
+    }
+    
+    return imageArr;
 }
 
 - (UIView *)ceateCustomView:(UIColor *)color tag:(NSInteger)tag imageName:(NSString *)imageName {
