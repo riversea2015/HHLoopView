@@ -35,14 +35,15 @@ Include HHLoopView wherever you need it with the following line:
 You just need use it like these codes bellow, and the images can be assigned with a set of LocalImageNames/URLStrings/URLs/UIImages or CustomViews.
 
 ```ruby
-HHLoopView *loopViewCustom = [[HHLoopView alloc] initWithFrame:CGRectMake(0, 64, [UIScreen mainScreen].bounds.size.width, 240)
-                                                        images:@[imageA, imageB, imageC]
-                                                     direction:HHLoopVertical
-                                                   clickAction:^(int intIndex)
+HHLoopView *loopView = [[HHLoopView alloc] initWithFrame:CGRectMake(0, 64, [UIScreen mainScreen].bounds.size.width, 240)
+                                                  images:@[imageA, imageB, imageC]
+                                               direction:HHLoopVertical
+                                             clickAction:^(int intIndex)
 {
     // Your click action ...
 }];
-[self.view addSubview:loopViewCustom];
+
+[self.view addSubview:loopView];
 ```
 
 ## Author
