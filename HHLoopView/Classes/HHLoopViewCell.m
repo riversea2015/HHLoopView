@@ -21,7 +21,7 @@
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
-        self.backgroundColor = [UIColor lightGrayColor];
+        self.backgroundColor = [UIColor whiteColor];
         [self setupViews];
     }
     return self;
@@ -29,16 +29,6 @@
 
 - (void)setupViews {
     [self addSubview:self.mainImgV];
-}
-
-- (void)setCustomView:(UIView *)customView {
-    if (_customView == customView) {
-        return;
-    }
-    _customView = customView;
-    customView.userInteractionEnabled = YES;
-    
-    [self addSubview:customView];
 }
 
 - (void)setImage:(id)image {
@@ -63,12 +53,6 @@
         }
         
     } else if ([image isKindOfClass:[UIView class]]) {
-        
-        if (_customView == image) {
-            return;
-        }
-        
-        [_customView removeFromSuperview];
         
         _customView = image;
         _customView.userInteractionEnabled = YES;
