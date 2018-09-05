@@ -12,6 +12,8 @@
 
 /// mainImageView
 @property (nonatomic, strong) UIImageView *mainImgV;
+/// CustomView
+@property (nonatomic, strong) UIView *customView;
 
 @end
 
@@ -40,8 +42,8 @@
 }
 
 - (void)setImage:(id)image {
-    _image = image;
     
+    _image = image;
     _mainImgV.hidden = NO;
     
     if ([image isKindOfClass:[UIImage class]]) {
@@ -59,6 +61,19 @@
         } else {
             _mainImgV.image = [UIImage imageNamed:image];
         }
+        
+    } else if ([image isKindOfClass:[UIView class]]) {
+        
+        if (_customView == image) {
+            return;
+        }
+        
+        [_customView removeFromSuperview];
+        
+        _customView = image;
+        _customView.userInteractionEnabled = YES;
+        
+        [self addSubview:_customView];
         
     } else {
         _mainImgV.image = nil;

@@ -48,7 +48,7 @@ static NSString * const imageURLStrC = @"https://img1.360buyimg.com/da/jfs/t2287
 
     // 用户自定义
     HHLoopView *loopViewCustom = [[HHLoopView alloc] initWithFrame:CGRectMake(0, 64+240+20, [UIScreen mainScreen].bounds.size.width, 240)
-                                                       customViews:@[[self ceateCustomView:[UIColor greenColor] tag:2018080201 imageName:@"HHLoopView_Icon_01"],
+                                                            images:@[[self ceateCustomView:[UIColor greenColor] tag:2018080201 imageName:@"HHLoopView_Icon_01"],
                                                                      [self ceateCustomView:[UIColor redColor] tag:2018080202 imageName:@"HHLoopView_Icon_02"],
                                                                      [self ceateCustomView:[UIColor yellowColor] tag:2018080203 imageName:@"HHLoopView_Icon_03"]]
                                                          direction:HHLoopVertical

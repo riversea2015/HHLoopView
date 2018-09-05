@@ -9,6 +9,7 @@
 #import "HHLoopView.h"
 #import "HHLoopViewCell.h"
 #import "NSTimer+HHExt.h"
+#import "HHLoopView_Macro.h"
 
 static const int HHMaxSectionCount = 50;
 static const NSTimeInterval HHLoopViewKeepTime = 3;
@@ -43,14 +44,8 @@ UICollectionViewDataSource
 
 #pragma mark - init Views
 
-// pulic
 - (instancetype)initWithFrame:(CGRect)frame images:(NSArray *)imgArr direction:(HHLoopDirection)loopDirection clickAction:(void (^)(int))clickAction {
     return [self initWithFrame:frame images:imgArr customViews:nil direction:loopDirection clickAction:clickAction];
-}
-
-// public
-- (instancetype)initWithFrame:(CGRect)frame customViews:(NSArray *)customViews direction:(HHLoopDirection)loopDirection clickAction:(void (^)(int))clickAction {
-    return [self initWithFrame:frame images:nil customViews:customViews direction:loopDirection clickAction:clickAction];
 }
 
 - (instancetype)initWithFrame:(CGRect)frame images:(NSArray *)imgArr customViews:(NSArray *)customViews direction:(HHLoopDirection)loopDirection clickAction:(void (^)(int))clickAction {
@@ -58,7 +53,6 @@ UICollectionViewDataSource
     if (self) {
         _needPageControl = YES;
         _imageList = imgArr;
-        _customViewList = customViews;
         _clickBlock = clickAction;
         _scrollDirection = loopDirection == HHLoopHorizontal ? UICollectionViewScrollDirectionHorizontal : UICollectionViewScrollDirectionVertical;
         
@@ -112,10 +106,10 @@ UICollectionViewDataSource
 
 - (UIPageControl *)pageControl {
     if (!_pageControl) {
-        CGFloat pageWidth = (HH_Arr_Is_Valid(_imageList) ? _imageList.count : _customViewList.count) * HHDotWidth;
+        CGFloat pageWidth = _imageList.count * HHDotWidth;
         _pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake((HHScreenW-pageWidth)/2, CGRectGetMaxY(self.bounds)-30, pageWidth, 30)];
         _pageControl.hidesForSinglePage = YES;
-        _pageControl.numberOfPages = HH_Arr_Is_Valid(_imageList) ? _imageList.count : _customViewList.count;
+        _pageControl.numberOfPages = _imageList.count;
     }
     
     return _pageControl;
@@ -129,31 +123,19 @@ UICollectionViewDataSource
 #pragma mark - UICollectionView DataSource
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    if (HH_Arr_Is_Valid(_customViewList)) {
-        return (_customViewList.count == 1) ? 1 : HHMaxSectionCount;
-    }
     return (_imageList.count == 1) ? 1 : HHMaxSectionCount;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    if (HH_Arr_Is_Valid(_customViewList)) {
-        return _customViewList.count;
-    }
     return _imageList.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     HHLoopViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:[HHLoopViewCell cellID] forIndexPath:indexPath];
-    
-    NSString *strName = nil;
-    UIView *customView = nil;
-    
+
     if (HH_Arr_Is_Valid(_imageList)) {
-        strName = _imageList[indexPath.item];
+        NSString *strName = _imageList[indexPath.item];
         cell.image = strName;
-    } else if (HH_Arr_Is_Valid(_customViewList)) {
-        customView = _customViewList[indexPath.row];
-        cell.customView = customView;
     }
     
     return cell;
@@ -182,8 +164,6 @@ UICollectionViewDataSource
     int page = 0;
     if (HH_Arr_Is_Valid(_imageList)) {
         page = (int)(scrollView.contentOffset.x/scrollView.frame.size.width + 0.5)%_imageList.count;
-    } else if (HH_Arr_Is_Valid(_customViewList)) {
-        page = (int)(scrollView.contentOffset.x/scrollView.frame.size.width + 0.5)%_customViewList.count;
     }
     
     self.pageControl.currentPage = page;
@@ -193,7 +173,7 @@ UICollectionViewDataSource
 
 - (void)addTimer {
     
-    if ((!HH_Arr_Is_Valid(_imageList) || _imageList.count <= 1) && (!HH_Arr_Is_Valid(_customViewList) || _customViewList.count <= 1)) {
+    if ((!HH_Arr_Is_Valid(_imageList) || _imageList.count <= 1)) {
         return;
     }
     
@@ -207,7 +187,7 @@ UICollectionViewDataSource
 
 - (void)removeTimer {
     
-    if ((!HH_Arr_Is_Valid(_imageList) || _imageList.count <= 1) && (!HH_Arr_Is_Valid(_customViewList) || _customViewList.count <= 1)) {
+    if ((!HH_Arr_Is_Valid(_imageList) || _imageList.count <= 1)) {
         return;
     }
     
@@ -227,7 +207,7 @@ UICollectionViewDataSource
     
     NSInteger nextItem = currentIndexPathRest.item + 1;
     NSInteger nextSection = currentIndexPathRest.section;
-    NSInteger count = HH_Arr_Is_Valid(_imageList) ? _imageList.count : _customViewList.count;
+    NSInteger count = _imageList.count;
     if (nextItem == count) {
         nextItem = 0;
         nextSection++;
