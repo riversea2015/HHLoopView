@@ -73,17 +73,12 @@
 - (UIImageView *)mainImgV {
     if (!_mainImgV) {
         _mainImgV = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
+        [_mainImgV sd_setIndicatorStyle:UIActivityIndicatorViewStyleGray];
         [_mainImgV sd_setShowActivityIndicatorView:YES];
         _mainImgV.hidden = YES;
     }
     return _mainImgV;
 }
-
-#pragma mark - override
-
-//- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
-//
-//}
 
 #pragma mark - Class Method
 
